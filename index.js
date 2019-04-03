@@ -12,19 +12,21 @@ console.log("Starting game... ");
 const game = new Game();
 const deck = new Deck();
 
-console.log(game.players);
 console.log(deck.cards);
 
-prompt("What is your name? ")
+const user = prompt("What is your name? ");
+game.players.push(new Player(user));
 
 //mock players
 var mockPlayerNames = ["Mal", "Jim", "Jenn"];
 for (var i = 0; i < 3; i++) {
   game.players.push(new Player(mockPlayerNames[i]));
 }
-console.log("Players this match: ", game.players, game.inProgress);
+console.log("Players this match: ", game.players.map(player => player.name));
+console.log("Team 1", game.team1.members);
+console.log("Team 2", game.team2.members);
 
 //game loop
 while (game.inProgress) {
-  prompt("Ready to play? ")
+  if(prompt("Game loop") === "\n") return;
 }
