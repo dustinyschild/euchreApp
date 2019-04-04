@@ -2,15 +2,20 @@ const defaultDeck = require("../resources/defaultDeck");
 
 const Deck = function() {
   this.shuffle = shuffle;
-  this.drawCard = drawCard;
   this.translateCard = translateCard;
 
-  this.cards = defaultDeck;
-  console.log("###########", defaultDeck);
+  this.cards = this.shuffle();
+
+  this.drawCard = () => {
+    const cardDrawn = this.cards[0];
+    this.cards.shift();
+
+    return cardDrawn;
+  }
 }
 
-// Pulled from: https://bost.ocks.org/mike/shuffle/
-//Shuffling efficiency of O(n) :))
+// Source: https://bost.ocks.org/mike/shuffle/
+//Shuffle resets the deck unless deck arg is specified
 const shuffle = (deck = defaultDeck) => {
   var copy = [], n = deck.length, i;
 
@@ -27,9 +32,6 @@ const shuffle = (deck = defaultDeck) => {
   this.cards = copy;
   return copy;
 };
-
-//TODO: implement methods
-const drawCard = () => new Error("Not implemented");
 
 const translateCard = () => new Error("Not implemented");
 

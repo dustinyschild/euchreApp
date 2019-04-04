@@ -10,15 +10,12 @@ const Game = function(deck, ...players) {
   this.teams = [];
 
   this.assignDealer = () => {
-    console.log(deck.cards);
-    let card = deck.drawCard();
-    console.log(card);
+    let card = null;
     let i = 0
 
-    card = "KH";
     do  {
-      console.log(`${this.players[i%4].name} draws ${deck.translateCard(card)}`);
-
+      card = deck.drawCard();
+      console.log(`${this.players[i%4].name} draws ${card}`);
       i++;
       prompt();
     } while (!card.includes("J"));

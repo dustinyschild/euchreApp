@@ -37,7 +37,6 @@ console.log(`You will be playing against ${game.teams[1].players[0].name} and ${
 //game loop
 while (game.inProgress) {
   console.log("Dealing cards...");
-  //steps:
   //assign dealer
   //deal cards
   //phase 1:
