@@ -1,11 +1,12 @@
-const defaultDeck = require("../resources/defaultDeck")
+const defaultDeck = require("../resources/defaultDeck");
 
 const Deck = function() {
   this.shuffle = shuffle;
   this.drawCard = drawCard;
   this.translateCard = translateCard;
 
-  this.cards = this.shuffle();
+  this.cards = defaultDeck;
+  console.log("###########", defaultDeck);
 }
 
 // Pulled from: https://bost.ocks.org/mike/shuffle/
@@ -28,8 +29,8 @@ const shuffle = (deck = defaultDeck) => {
 };
 
 //TODO: implement methods
-const drawCard = () => new Error("Error: not implemented");
+const drawCard = () => new Error("Not implemented");
 
-const translateCard = () => new Error("Error: not implemented");
+const translateCard = () => new Error("Not implemented");
 
 module.exports = Deck;
