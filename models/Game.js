@@ -12,17 +12,19 @@ const Game = function(deck, ...players) {
 
   this.assignDealer = () => {
     let card = null;
-    let i = 0
+    let playerDrawing = null;
+    let i = 0;
 
     do  {
       card = deck.drawCard();
-      console.log(`${this.players[i%4].name} draws ${deck.translateCard(card)}`);
+      playerDrawing = this.players[i%4];
+      console.log(`${playerDrawing.name} draws ${deck.translateCard(card)}`);
       i++;
       prompt("Next");
     } while (!card.includes("J"));
 
-    this.dealer = this.players[i%4].name
-    return this.dealer;
+    this.dealer = playerDrawing
+    return this.dealer.name;
   }
 }
 

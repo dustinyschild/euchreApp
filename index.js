@@ -46,7 +46,7 @@ while (game.inProgress) {
   //
 
   console.log("Dealing cards to determine the first dealer...");
-  game.assignDealer();
+  console.log(`${game.assignDealer()} will deal first.`)
 
   const round = new Round(deck);
 
