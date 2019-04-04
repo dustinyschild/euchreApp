@@ -8,6 +8,9 @@ const Deck = function() {
   this.cards = this.shuffle();
 
   this.drawCard = () => {
+    if (this.cards.length === 0)
+      throw Error("No cards left");
+
     const cardDrawn = this.cards[0];
     //this could be refactored to take in the array index for better performance??
     this.cards.shift();
