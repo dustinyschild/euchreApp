@@ -8,6 +8,7 @@ const Game = function(deck, ...players) {
   ]
 
   this.teams = [];
+  this.dealer = null;
 
   this.assignDealer = () => {
     let card = null;
@@ -20,6 +21,8 @@ const Game = function(deck, ...players) {
       prompt("Next");
     } while (!card.includes("J"));
 
+    this.dealer = this.players[i%4].name
+    return this.dealer;
   }
 }
 
