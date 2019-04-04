@@ -1,4 +1,5 @@
 const defaultDeck = require("../resources/defaultDeck");
+const deckTranslations = require("../resources/deckTranslations");
 
 const Deck = function() {
   this.shuffle = shuffle;
@@ -8,6 +9,7 @@ const Deck = function() {
 
   this.drawCard = () => {
     const cardDrawn = this.cards[0];
+    //this could be refactored to take in the array index for better performance??
     this.cards.shift();
 
     return cardDrawn;
@@ -33,6 +35,6 @@ const shuffle = (deck = defaultDeck) => {
   return copy;
 };
 
-const translateCard = () => new Error("Not implemented");
+const translateCard = cardCode => deckTranslations[cardCode];
 
 module.exports = Deck;

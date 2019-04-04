@@ -15,10 +15,11 @@ const Game = function(deck, ...players) {
 
     do  {
       card = deck.drawCard();
-      console.log(`${this.players[i%4].name} draws ${card}`);
+      console.log(`${this.players[i%4].name} draws ${deck.translateCard(card)}`);
       i++;
-      prompt();
+      prompt("Next");
     } while (!card.includes("J"));
+
   }
 }
 
