@@ -25,7 +25,13 @@ const Game = function(deck, ...players) {
 
     this.dealer = playerDrawing
     return this.dealer.name;
-  }
+  };
+
+  this.shuffleAndDealCards = () => {
+    deck.shuffle();
+
+    console.log("Shuffled", deck, deck.cards.length);
+  };
 }
 
 module.exports = Game

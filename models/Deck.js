@@ -2,10 +2,9 @@ const defaultDeck = require("../resources/defaultDeck");
 const deckTranslations = require("../resources/deckTranslations");
 
 const Deck = function() {
-  this.shuffle = shuffle;
   this.translateCard = translateCard;
 
-  this.cards = this.shuffle();
+  this.cards = defaultDeck;
 
   this.drawCard = () => {
     if (this.cards.length === 0)
@@ -21,8 +20,11 @@ const Deck = function() {
 
 // Source: https://bost.ocks.org/mike/shuffle/
 //Shuffle resets the deck unless deck arg is specified
-const shuffle = (deck = defaultDeck) => {
-  var copy = [], n = deck.length, i;
+Deck.prototype.shuffle = (deck = defaultDeck) => {
+  //ADDED: clone deck to preserve the original
+  deckCopy = deck.slice(0);
+
+  var newDeck = [], n = deck.length, i;
 
   // While there remain elements to shuffle…
   while (n) {
@@ -31,12 +33,15 @@ const shuffle = (deck = defaultDeck) => {
     i = Math.floor(Math.random() * n--);
 
     // And move it to the new array.
-    copy.push(deck.splice(i, 1)[0]);
+    newDeck.push(deckCopy.splice(i, 1)[0]);
   }
 
-  this.cards = copy;
-  return copy;
+  this.cards = newDeck;
+  console.log(this.cards);
+  return newDeck;
 };
+
+
 
 const translateCard = cardCode => deckTranslations[cardCode];
 

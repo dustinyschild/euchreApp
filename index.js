@@ -37,18 +37,26 @@ console.log(`You will be playing against ${game.teams[1].players[0].name} and ${
 //game loop
 while (game.inProgress) {
   //assign dealer
-  //deal cards
-  //phase 1:
-  //pass action between players to select trump suit
-  //when trump suit is selected assign it to the dealer and allow discard.
-  //phase 2:
-  //take turns playing cards, highest card wins. Winner of the hand goes first next round. (5x)
-  //
-
   console.log("Dealing cards to determine the first dealer...");
   console.log(`${game.assignDealer()} will deal first.`);
 
-  const round = new Round(deck);
+  const round = new Round();
+  game.currentRound = round;
+  while (round.inProgress) {
+    deck.shuffle();
+
+
+
+
+    //deal cards
+    //phase 1:
+    //pass action between players to select trump suit
+    //when trump suit is selected assign it to the dealer and allow discard.
+    //phase 2:
+    //take turns playing cards, highest card wins. Winner of the hand goes first next round. (5x)
+    //
+    prompt()
+  }
 
 
 
