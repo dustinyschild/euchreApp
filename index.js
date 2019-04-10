@@ -45,10 +45,14 @@ while (game.inProgress) {
   while (round.inProgress) {
     deck.shuffle();
 
-
-
-
     //deal cards
+    for (var i = 0; i < 20; i++) {
+      game.players[i%4].hand.push(deck.drawCard());
+    }
+
+    game.players.map(player => console.log(`${player.name}'s hand: `, player.hand));
+    console.log("Cards left: ", deck.cards);
+
     //phase 1:
     //pass action between players to select trump suit
     //when trump suit is selected assign it to the dealer and allow discard.

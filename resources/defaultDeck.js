@@ -24,5 +24,5 @@ const defaultDeck = [
   "10D",
   "9D"
 ];
-
+console.log(defaultDeck.length);
 module.exports = defaultDeck;

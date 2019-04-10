@@ -1,6 +1,6 @@
 const Player = function(name) {
   this.name = name;
-  this.hand = null
+  this.hand = [];
 }
 
 module.exports = Player;
