@@ -25,6 +25,7 @@ Each player is delt 5 cards and 1 card is flipped from the top of the deck. Star
   - Stats tracking
   - Chat
 - Scale to tournament/rank system
+- Third party OAuth (Facebook, Goolge, etc.)
 
 ### Models
 - Deck
