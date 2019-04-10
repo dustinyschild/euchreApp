@@ -2,8 +2,6 @@ const defaultDeck = require("../resources/defaultDeck");
 const deckTranslations = require("../resources/deckTranslations");
 
 const Deck = function() {
-  this.translateCard = translateCard;
-
   this.cards = defaultDeck.slice(0); //COPY OF DECK MODEL
 
   this.drawCard = () => {
@@ -20,7 +18,6 @@ const Deck = function() {
   // Source: https://bost.ocks.org/mike/shuffle/
   //Shuffle resets the deck unless deck arg is specified
   this.shuffle = (deck = defaultDeck) => {
-    console.log(deck.length);
     //ADDED: clone deck to preserve the original
     deckCopy = deck.slice(0);
     var newDeck = [], n = deckCopy.length, i;
@@ -36,12 +33,11 @@ const Deck = function() {
     }
 
     this.cards = newDeck;
-    console.log(this.cards.length);
     return newDeck;
   };
 }
 
 
-const translateCard = cardCode => deckTranslations[cardCode];
+Deck.prototype.translateCard = cardCode => deckTranslations[cardCode];
 
 module.exports = Deck;
