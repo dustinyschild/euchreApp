@@ -41,8 +41,6 @@ Deck.prototype.shuffle = (deck = defaultDeck) => {
   return newDeck;
 };
 
-
-
 const translateCard = cardCode => deckTranslations[cardCode];
 
 module.exports = Deck;
