@@ -39,6 +39,8 @@ while (game.inProgress) {
   //assign dealer
   console.log("Dealing cards to determine the first dealer...");
   console.log(`${game.assignDealer()} will deal first.`);
+  game.setActivePlayer(game.dealer);
+  console.log("ACTIVE AND DEALER", game.activePlayer, game.dealer);
 
   const round = new Round();
   game.currentRound = round;
@@ -56,6 +58,17 @@ while (game.inProgress) {
     //phase 1:
     //pass action between players to select trump suit
     //when trump suit is selected assign it to the dealer and allow discard.
+    var trumpSuit = deck.translateCard(deck.drawCard()).suit;
+    for (var i = 0; i < 3; i++) {
+      game.getNextPlayer(game.activePlayer);
+      console.log("\nACTIVE PLAYER", game.activePlayer)
+      if (game.activePlayer.name === user.name) {
+        const playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit} to be trump? y = yes / n = no`);
+
+      }
+
+    }
+
     //phase 2:
     //take turns playing cards, highest card wins. Winner of the hand goes first next round. (5x)
     //

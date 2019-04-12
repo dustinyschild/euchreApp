@@ -32,3 +32,6 @@ Each player is delt 5 cards and 1 card is flipped from the top of the deck. Star
 - Game
 - Player
 - Team?
+
+#To Do/Backlog
+- Refactor factory methods to prototypes (don't use arrow functions!)
