@@ -85,6 +85,20 @@ while (game.inProgress) {
         console.log(`${game.activePlayer.name} chose to order up trump!`);
 
         game.trumpSuit = trumpSuit;
+        game.dealer.hand.push(card);
+
+        if (game.dealer.name === user.name) {
+          const discardCard = prompt("Which card do you want to discard?");
+          //Optimally there would be some validation checks here
+            //Correct format
+            //Player has card
+          console.log(game.dealer.hand);
+          game.dealer.hand.filter(playerCard => playerCard !== discardCard);
+        } else {
+          console.log("Dealer picks the card up and discards");
+          game.dealer.hand.shift();
+        }
+
         break;
       } else if (playerChoice === "n") {
         //move on to next player
@@ -109,7 +123,6 @@ while (game.inProgress) {
         game.setActivePlayer(nextPlayer);
         console.log(`${game.activePlayer.name} may choose trump..............`);
 
-        console.log(i)
         if (i === 3) {
           console.log("last loop");
 
@@ -129,15 +142,22 @@ while (game.inProgress) {
           trumpSuit = game.players[i].mocks.trumpSelection;
         }
 
-        game.trumpSuit = trumpSuit;
-        console.log(`${game.trumpSuit} is trump.`);
       }
+
+      game.trumpSuit = trumpSuit;
+      console.log(`${game.trumpSuit} is trump.`);
     }
 
     //phase 2:
     //take turns playing cards, highest card wins. Winner of the hand goes first next round. (5x)
     //
-    prompt()
+
+    //Reset to player left of the dealer
+    game.setActivePlayer(game.getNextPlayer(game.dealer));
+
+    console.log(`${game.activePlayer.name} leads first.`);
+
+    prompt("Round End.");
   }
 
 
