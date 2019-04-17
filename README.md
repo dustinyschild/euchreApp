@@ -35,3 +35,9 @@ Each player is delt 5 cards and 1 card is flipped from the top of the deck. Star
 
 #To Do/Backlog
 - Refactor factory methods to prototypes (don't use arrow functions!)
+- ***INTRODUCE TESTING***
+
+1. Finish core logic
+2. Decouple user actions from core game and create client (This will be a step towards scaling the app).
+3. Allow for client usage across network (using socket.io?) - validate and call the actions created in step 2
+4. Database to persist users, games, game actions, etc.

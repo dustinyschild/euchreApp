@@ -8,26 +8,18 @@ const Game = function(deck, ...players) {
 
   this.currentRound = null;
   this.activePlayer = null;
+  this.trumpSuit = null;
 
   this.teams = [];
   this.dealer = null;
 
   this.setActivePlayer = player => this.activePlayer = player;
 
-  this.getNextPlayer = currentPlayer => {
-    const nextPlayer = this.players.reduce((acc, player, i) => {
-      if (player.name === currentPlayer.name) {
-        console.log("NEXT PLAYER INDEX", (i + 1)%4, this.players[(i + 1)%4])
-        return this.players[(i + 1)%4];
-      }
-
-      return acc;
-    }, null);
-    console.log(nextPlayer)
-    this.activePlayer = nextPlayer;
-    //this.setActivePlayer(nextPlayer);
-    return nextPlayer;
-  }
+  this.getNextPlayer = currentPlayer =>
+    this.players.reduce((acc, player, i) =>
+      player.name === currentPlayer.name ? this.players[(i + 1)%4] : acc,
+      null
+    );
 
 
   this.assignDealer = () => {
@@ -53,6 +45,9 @@ const Game = function(deck, ...players) {
 
     console.log("Shuffled", deck, deck.cards.length);
   };
+
+  //TEMPORARY
+  this.mocks = {};
 }
 
 module.exports = Game

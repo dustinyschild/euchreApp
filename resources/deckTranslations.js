@@ -8,10 +8,10 @@ const deckTranslations = {
   "AC": {rank: "Ace", suit: "Clubs"},
   "KC": {rank: "King", suit: "Clubs"},
   "QC": {rank: "Queen", suit: "Clubs"},
-  "JC": {rank: "Jack", rank: "Clubs"},
+  "JC": {rank: "Jack", suit: "Clubs"},
   "10C": {rank: "10", suit: "Clubs"},
   "9C": {rank: "9", suit: "Clubs"},
-  "AH": {suit: "Ace", suit: "Hearts"},
+  "AH": {rank: "Ace", suit: "Hearts"},
   "KH": {rank: "King", suit: "Hearts"},
   "QH": {rank: "Queen", suit: "Hearts"},
   "JH": {rank: "Jack", suit: "Hearts"},
@@ -24,5 +24,7 @@ const deckTranslations = {
   "10D": {rank: "10", suit: "Diamonds"},
   "9D": {rank: "9", suit: "Diamonds"}
 }
+
+//TODO add color field to help with left/right bowers in determining who take the trick!
 
 module.exports = deckTranslations;
