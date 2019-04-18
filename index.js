@@ -177,6 +177,9 @@ while (game.inProgress) {
       game.setActivePlayer(game.getNextPlayer(game.activePlayer));
     }
 
+    //evaluate
+    game.evaluateStack(stack);
+
     prompt("Round End.");
   }
 
