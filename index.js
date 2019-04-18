@@ -58,8 +58,8 @@ while (game.inProgress) {
     //phase 1:
     //pass action between players to select trump suit
     //when trump suit is selected assign it to the dealer and allow discard.
-    const card = deck.drawCard();
-    var trumpSuit = deck.translateCard(card).suit
+    const trumpCard = deck.drawCard();
+    var trumpSuit = deck.translateCard(trumpCard).suit
 
     //mock player responses
     game.players[3].mocks.trumpChoice = "n";
@@ -85,7 +85,7 @@ while (game.inProgress) {
         console.log(`${game.activePlayer.name} chose to order up trump!`);
 
         game.trumpSuit = trumpSuit;
-        game.dealer.hand.push(card);
+        game.dealer.hand.push(trumpCard);
 
         if (game.dealer.name === user.name) {
           const discardCard = prompt("Which card do you want to discard?");
@@ -156,6 +156,26 @@ while (game.inProgress) {
     game.setActivePlayer(game.getNextPlayer(game.dealer));
 
     console.log(`${game.activePlayer.name} leads first.`);
+
+    let playerCard = null;
+    game.players[1].mocks.playerCard = game.players[1].hand[0]
+    game.players[2].mocks.playerCard = game.players[2].hand[0]
+    game.players[3].mocks.playerCard = game.players[3].hand[0]
+
+    for (var i = 0; i < 4; i++) {
+      if (game.activePlayer.name === user.name) {
+        playerCard = prompt(`Choose a card to play: \n${game.activePlayer.hand}`)
+        //validation blah blah blah
+      } else {
+        playerCard = game.players[i].mocks.playerCard
+      }
+
+      game.playCard(playerCard);
+      game.activePlayer.playCard(playerCard);
+      console.log(game.activePlayer.hand);
+      console.log(game.stack);
+      game.setActivePlayer(game.getNextPlayer(game.activePlayer));
+    }
 
     prompt("Round End.");
   }

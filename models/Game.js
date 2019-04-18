@@ -13,6 +13,8 @@ const Game = function(deck, ...players) {
   this.teams = [];
   this.dealer = null;
 
+  this.stack = [];
+
   this.setActivePlayer = player => this.activePlayer = player;
 
   this.getNextPlayer = currentPlayer =>
@@ -48,6 +50,10 @@ const Game = function(deck, ...players) {
 
   //TEMPORARY
   this.mocks = {};
+}
+
+Game.prototype.playCard = function(card) {
+  this.stack.push(card);
 }
 
 module.exports = Game

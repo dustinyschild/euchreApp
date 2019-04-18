@@ -6,4 +6,8 @@ const Player = function(name) {
   this.mocks = {};
 }
 
+Player.prototype.playCard = function(card) {
+  this.hand = this.hand.filter(cardFromHand => cardFromHand !== card);
+}
+
 module.exports = Player;
