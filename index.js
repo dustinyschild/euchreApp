@@ -172,13 +172,15 @@ while (game.inProgress) {
 
       game.playCard(playerCard);
       game.activePlayer.playCard(playerCard);
-      console.log(game.activePlayer.hand);
       console.log(game.stack);
       game.setActivePlayer(game.getNextPlayer(game.activePlayer));
     }
 
     //evaluate
-    game.evaluateStack(stack);
+    const highestCard = game.evaluateStack(game.stack);
+
+
+    console.log(highestCard);
 
     prompt("Round End.");
   }

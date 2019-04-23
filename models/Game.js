@@ -7,6 +7,8 @@ const Game = function(deck, ...players) {
     ...players
   ]
 
+  this.deck = deck;
+
   this.currentRound = null;
   this.activePlayer = null;
   this.trumpSuit = null;
@@ -59,12 +61,15 @@ Game.prototype.playCard = function(card) {
 
 Game.prototype.evaluateStack = function(stack) {
   //look for trump cards
-  const hasTrump = stack.filter(card => deck.translateCard(card).suit === this.trumpSuit) > 0;
+  const hasTrump = stack.filter(card => this.deck.translateCard(card).suit === this.trumpSuit).length > 0;
+
+  console.log(hasTrump);
+
+  //set eval rank order
+  let evalMap = null;
 
   if (hasTrump) {
-    //set eval rank order
-    let evalMap = null;
-    switch (trumpSuit) {
+    switch (this.trumpSuit) {
       case "Spades":
         evalMap = evalLookup.trumpIsSpades;
       case "Clubs":
@@ -76,7 +81,7 @@ Game.prototype.evaluateStack = function(stack) {
     }
 
   } else {
-    const firstCardPlayed = deck.translateCard(stack[stack.length - 1])
+    const firstCardPlayed = this.deck.translateCard(stack[stack.length - 1])
     switch (firstCardPlayed.suit) {
       case "Spades":
       evalMap = evalLookup.leadIsSpades;
@@ -90,14 +95,17 @@ Game.prototype.evaluateStack = function(stack) {
   }
 
   //compare cross referenced index from eval map. Lowest index (highest rank) wins.
-  return stack.reduce((acc, card) => {
-    const index = evalMap.indexOf(card)
-    if (index < acc) {
+  const indexOfHighCard = this.stack.reduce((acc, card) => {
+    const index = evalMap.indexOf(card);
+    console.log("index", index, acc);
+    if (index < acc && index >= 0) {
+      console.log("LowestCurrent card", index)
       acc = index;
     }
-
     return acc;
-  });
+  }, 32); //Default value for index
+
+  return stack[indexOfHighCard];
 }
 
 module.exports = Game
