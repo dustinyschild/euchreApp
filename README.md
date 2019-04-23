@@ -41,3 +41,9 @@ Each player is delt 5 cards and 1 card is flipped from the top of the deck. Star
 2. Decouple user actions from core game and create client (This will be a step towards scaling the app).
 3. Allow for client usage across network (using socket.io?) - validate and call the actions created in step 2
 4. Database to persist users, games, game actions, etc.
+
+
+##BUGS
+**CRITICAL**
+- Disable non-suited cards if player can follow suit --note: should be logic added to Round?
+- CLEAN UP - Object methods should NOT have sided effects. `index.js` should be handling setting property values OR dedicated setter methods should be created (Is there an advantage to either?)

@@ -179,7 +179,7 @@ while (game.inProgress) {
     //evaluate
     const highestCard = game.evaluateStack(game.stack);
 
-
+    
     console.log(highestCard);
 
     prompt("Round End.");
