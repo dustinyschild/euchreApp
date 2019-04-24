@@ -1,4 +1,6 @@
 const assert = require("assert").strict;
+const itParam = require("mocha-param");
+
 const Deck = require("../models/Deck");
 const Game = require("../models/Game");
 
@@ -13,29 +15,47 @@ describe("Game", function() {
   //these first few would probably be assertions on a single test run though of the app
   it("should register players");
 
-  describe("evaluateStack()", function() {
+  describe(".evaluateStack()", function() {
     const SPADES = "Spades";
     const CLUBS = "Clubs";
     const HEARTS = "Hearts";
     const DIAMONDS = "Diamonds";
+    const RED = "Red";
+    const BLACK = "Black";
 
     const testCases = [
       {
-        description: "should evaluate Jack of Clubs as highest card",
-        stack: ["JC", "AC", "QC", "10C"],
-        trumpSuit: CLUBS,
+        description: "should evaluate Jack of Spades as highest card",
+        stack: ["JS", "AC", "QH", "10D"],
+        trumpSuit: { suit: SPADES, color: BLACK},
+        expected: "JS"
+      },
+      {
+        description: "should recognize left bower as trump",
+        stack: ["JC", "AH", "QD", "10H"],
+        trumpSuit: { suit: SPADES, color: BLACK},
         expected: "JC"
-      }
+      },
+      {
+        description: "should recognize left bower as trump (not first card played)",
+        stack: ["AH", "JC", "QD", "10H"],
+        trumpSuit: { suit: SPADES, color: BLACK},
+        expected: "JC"
+      },
+      {
+        description: "should default winning suit as the suit that lead if no trump was played",
+        stack: ["JH", "AC", "QH", "10D"],
+        trumpSuit: { suit: SPADES, color: BLACK},
+        expected: "QH"
+      },
     ];
 
-    testCases.map(testCase => {
+    itParam("${value.description}", testCases, function(testCase) {
       sut.trumpSuit = testCase.trumpSuit;
 
-      it(testCase.description, function() {
-        const highCard = sut.evaluateStack(testCase.stack);
+      const highCard = sut.evaluateStack(testCase.stack);
 
-        assert.strictEqual(highCard, testCase.expected);
-      });
+      assert.strictEqual(highCard, testCase.expected);
     });
   });
 });

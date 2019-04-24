@@ -58,8 +58,8 @@ while (game.inProgress) {
     //phase 1:
     //pass action between players to select trump suit
     //when trump suit is selected assign it to the dealer and allow discard.
-    const trumpCard = deck.drawCard();
-    var trumpSuit = deck.translateCard(trumpCard).suit
+    const trumpCard = deck.translateCard(deck.drawCard());
+    const trumpSuit = { suit: trumpCard.suit, color: trumpCard.color };
 
     //mock player responses
     game.players[3].mocks.trumpChoice = "n";
@@ -74,7 +74,7 @@ while (game.inProgress) {
 
 
       if (game.activePlayer.name === user.name) {
-        playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit} to be trump? y = yes / n = no\n`);
+        playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit.suit} to be trump? y = yes / n = no\n`);
       } else {
         playerChoice = game.players[i].mocks.trumpChoice;
       }
@@ -84,6 +84,7 @@ while (game.inProgress) {
         //set trump suit
         console.log(`${game.activePlayer.name} chose to order up trump!`);
 
+        console.log(trumpSuit)
         game.trumpSuit = trumpSuit;
         game.dealer.hand.push(trumpCard);
 
@@ -179,7 +180,7 @@ while (game.inProgress) {
     //evaluate
     const highestCard = game.evaluateStack(game.stack);
 
-    
+
     console.log(highestCard);
 
     prompt("Round End.");

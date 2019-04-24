@@ -2,122 +2,146 @@ const deckTranslations = {
   "AS": {
     rank: "Ace",
     suit: "Spades",
-    id: "AS"
+    id: "AS",
+    color: "Black"
   },
   "KS": {
     rank: "King",
     suit: "Spades",
-    id: "KS"
+    id: "KS",
+    color: "Black"
   },
   "QS": {
     rank: "Queen",
     suit: "Spades",
-    id: "QS"
+    id: "QS",
+    color: "Black"
   },
   "JS": {
     rank: "Jack",
     suit: "Spades",
-    id: "JS"
+    id: "JS",
+    color: "Black"
   },
   "10S": {
     rank: "10",
     suit: "Spades",
-    id: "10S"
+    id: "10S",
+    color: "Black"
   },
   "9S": {
     rank: "9",
     suit: "Spades",
-    id: "9S"
+    id: "9S",
+    color: "Black"
   },
   "AC": {
     rank: "Ace",
     suit: "Clubs",
-    id: "AC"
+    id: "AC",
+    color: "Black"
   },
   "KC": {
     rank: "King",
     suit: "Clubs",
-    id: "KC"
+    id: "KC",
+    color: "Black"
   },
   "QC": {
     rank: "Queen",
     suit: "Clubs",
-    id: "QC"
+    id: "QC",
+    color: "Black"
   },
   "JC": {
     rank: "Jack",
     suit: "Clubs",
-    id: "JC"
+    id: "JC",
+    color: "Black"
   },
   "10C": {
     rank: "10",
     suit: "Clubs",
-    id: "10C"
+    id: "10C",
+    color: "Black"
   },
   "9C": {
     rank: "9",
     suit: "Clubs",
-    id: "9C"
+    id: "9C",
+    color: "Black"
   },
   "AH": {
     rank: "Ace",
     suit: "Hearts",
-    id: "AH"
+    id: "AH",
+    color: "Red"
   },
   "KH": {
     rank: "King",
     suit: "Hearts",
-    id: "KH"
+    id: "KH",
+    color: "Red"
   },
   "QH": {
     rank: "Queen",
     suit: "Hearts",
-    id: "QH"
+    id: "QH",
+    color: "Red"
   },
   "JH": {
     rank: "Jack",
     suit: "Hearts",
-    id: "JH"
+    id: "JH",
+    color: "Red"
   },
   "10H": {
     rank: "10",
     suit: "Hearts",
-    id: "10H"
+    id: "10H",
+    color: "Red"
   },
   "9H": {
     rank: "9",
     suit: "Hearts",
-    id: "9H"
+    id: "9H",
+    color: "Red"
   },
   "AD": {
     rank: "Ace",
     suit: "Diamonds",
-    id: "AD"
+    id: "AD",
+    color: "Red"
   },
   "KD": {
     rank: "King",
     suit: "Diamonds",
-    id: "KD"
+    id: "KD",
+    color: "Red"
   },
   "QD": {
     rank: "Queen",
     suit: "Diamonds",
-    id: "QD"
+    id: "QD",
+    color: "Red"
   },
   "JD": {
     rank: "Jack",
     suit: "Diamonds",
-    id: "JD"
+    id: "JD",
+    color: "Red"
   },
   "10D": {
     rank: "10",
     suit: "Diamonds",
-    id: "10D"
+    id: "10D",
+    color: "Red"
   },
   "9D": {
     rank: "9",
     suit: "Diamonds",
-    id: "9D"
+    id: "9D",
+    color: "Red"
   }
 }
 

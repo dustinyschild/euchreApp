@@ -62,24 +62,33 @@ Game.prototype.playCard = function(card) {
 Game.prototype.evaluateStack = function(stack) {
   console.log("EVALUATING");
   //look for trump cards
-  const hasTrump = stack.filter(card => this.deck.translateCard(card).suit === this.trumpSuit).length > 0;
+  const hasTrump = stack.filter(card => {
+    stackCard = this.deck.translateCard(card)
+    console.log(this.trumpSuit)
+    const matchesSuit = stackCard.suit === this.trumpSuit.suit;
+    const isLeftBower = stackCard.rank === "Jack" && stackCard.color === this.trumpSuit.color;
+
+    return matchesSuit || isLeftBower;
+  }).length > 0;
 
   console.log("hasTrump", hasTrump);
 
   //set eval rank order
   let evalMap = null;
-
+  const { suit } = this.trumpSuit;
   if (hasTrump) {
-    if (this.trumpSuit === "Spades")
+    if (suit === "Spades")
       evalMap = evalLookup.trumpIsSpades;
-    else if (this.trumpSuit === "Clubs")
+    else if (suit === "Clubs")
       evalMap = evalLookup.trumpIsClubs;
-    else if (this.trumpSuit === "Hearts")
+    else if (suit === "Hearts")
       evalMap = evalLookup.trumpIsHearts;
-    else if (this.trumpSuit === "Diamonds")
+    else if (suit === "Diamonds")
       evalMap = evalLookup.trumpIsDiamonds;
+    else
+      throw new Error("EvalMap must be set");
   } else {
-    const firstCardPlayed = this.deck.translateCard(stack[stack.length - 1]);
+    const firstCardPlayed = this.deck.translateCard(stack[0]);
 
     if (firstCardPlayed.suit === "Spades")
       evalMap = evalLookup.leadIsSpades;
@@ -89,22 +98,23 @@ Game.prototype.evaluateStack = function(stack) {
       evalMap = evalLookup.leadIsHearts;
     else if (firstCardPlayed.suit === "Diamonds")
       evalMap = evalLookup.leadIsDiamonds;
+    else
+      throw new Error("EvalMap must be set.");
   }
 
-  console.log("trumpSuit", this.trumpSuit)
-  console.log("evalMap", evalMap)
+  console.log("start reduce")
   //compare cross referenced index from eval map. Lowest index (highest rank) wins.
-  const indexOfHighCard = this.stack.reduce((acc, card) => {
+  const indexOfHighCard = stack.reduce((acc, card) => {
     const index = evalMap.indexOf(card);
-    console.log("index", index, acc);
+    console.log(card, index, acc);
     if (index < acc && index >= 0) {
-      console.log("LowestCurrent card", index)
       acc = index;
     }
     return acc;
   }, 32); //Default value for index
 
-  return stack[indexOfHighCard];
+  console.log(evalMap[indexOfHighCard]);
+  return evalMap[indexOfHighCard];
 }
 
 module.exports = Game
