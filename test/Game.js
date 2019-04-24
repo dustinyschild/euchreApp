@@ -48,6 +48,30 @@ describe("Game", function() {
         trumpSuit: { suit: SPADES, color: BLACK},
         expected: "QH"
       },
+      {
+        description: "should evaluate Jack of Clubs as highest card",
+        stack: ["JC", "AC", "QH", "10D"],
+        trumpSuit: { suit: CLUBS, color: BLACK},
+        expected: "JC"
+      },
+      {
+        description: "should recognize left bower as trump",
+        stack: ["JS", "AH", "QD", "10H"],
+        trumpSuit: { suit: CLUBS, color: BLACK},
+        expected: "JS"
+      },
+      {
+        description: "should recognize left bower as trump (not first card played)",
+        stack: ["AH", "JS", "QD", "10H"],
+        trumpSuit: { suit: CLUBS, color: BLACK},
+        expected: "JS"
+      },
+      {
+        description: "should default winning suit as the suit that lead if no trump was played",
+        stack: ["JH", "AS", "QH", "10D"],
+        trumpSuit: { suit: CLUBS, color: BLACK},
+        expected: "QH"
+      }
     ];
 
     itParam("${value.description}", testCases, function(testCase) {
