@@ -60,40 +60,39 @@ Game.prototype.playCard = function(card) {
 }
 
 Game.prototype.evaluateStack = function(stack) {
+  console.log("EVALUATING");
   //look for trump cards
   const hasTrump = stack.filter(card => this.deck.translateCard(card).suit === this.trumpSuit).length > 0;
 
-  console.log(hasTrump);
+  console.log("hasTrump", hasTrump);
 
   //set eval rank order
   let evalMap = null;
 
   if (hasTrump) {
-    switch (this.trumpSuit) {
-      case "Spades":
-        evalMap = evalLookup.trumpIsSpades;
-      case "Clubs":
-        evalMap = evalLookup.trumpIsClubs;
-      case "Hearts":
-        evalMap = evalLookup.trumpIsHearts;
-      case "Diamonds":
-        evalMap = evalLookup.trumpIsDiamonds;
-    }
-
+    if (this.trumpSuit === "Spades")
+      evalMap = evalLookup.trumpIsSpades;
+    else if (this.trumpSuit === "Clubs")
+      evalMap = evalLookup.trumpIsClubs;
+    else if (this.trumpSuit === "Hearts")
+      evalMap = evalLookup.trumpIsHearts;
+    else if (this.trumpSuit === "Diamonds")
+      evalMap = evalLookup.trumpIsDiamonds;
   } else {
-    const firstCardPlayed = this.deck.translateCard(stack[stack.length - 1])
-    switch (firstCardPlayed.suit) {
-      case "Spades":
+    const firstCardPlayed = this.deck.translateCard(stack[stack.length - 1]);
+
+    if (firstCardPlayed.suit === "Spades")
       evalMap = evalLookup.leadIsSpades;
-      case "Clubs":
+    else if (firstCardPlayed.suit === "Clubs")
       evalMap = evalLookup.leadIsClubs;
-      case "Hearts":
+    else if (firstCardPlayed.suit === "Hearts")
       evalMap = evalLookup.leadIsHearts;
-      case "Diamonds":
+    else if (firstCardPlayed.suit === "Diamonds")
       evalMap = evalLookup.leadIsDiamonds;
-    }
   }
 
+  console.log("trumpSuit", this.trumpSuit)
+  console.log("evalMap", evalMap)
   //compare cross referenced index from eval map. Lowest index (highest rank) wins.
   const indexOfHighCard = this.stack.reduce((acc, card) => {
     const index = evalMap.indexOf(card);

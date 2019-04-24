@@ -1,4 +1,4 @@
-const assert = require("assert");
+const assert = require("assert").strict;
 const Deck = require("../models/Deck");
 const Game = require("../models/Game");
 
@@ -13,7 +13,7 @@ describe("Game", function() {
   //these first few would probably be assertions on a single test run though of the app
   it("should register players");
 
-  describe(" > evaluateStack", function() {
+  describe("evaluateStack()", function() {
     const SPADES = "Spades";
     const CLUBS = "Clubs";
     const HEARTS = "Hearts";
@@ -32,7 +32,9 @@ describe("Game", function() {
       sut.trumpSuit = testCase.trumpSuit;
 
       it(testCase.description, function() {
-        
+        const highCard = sut.evaluateStack(testCase.stack);
+
+        assert.strictEqual(highCard, testCase.expected);
       });
     });
   });

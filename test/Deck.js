@@ -14,7 +14,6 @@ describe("Deck", function() {
       const original = sut.cards.slice(0);
       const card = sut.drawCard();
 
-      console.log(original)
       assert.strictEqual(card, original[0]);
       assert.strictEqual(sut.cards[0], original[1]);
     });
