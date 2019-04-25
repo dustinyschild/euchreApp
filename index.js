@@ -171,7 +171,7 @@ while (game.inProgress) {
         playerCard = game.players[i].mocks.playerCard
       }
 
-      game.playCard(playerCard);
+      game.playCard(playerCard, game.activePlayer);
       game.activePlayer.playCard(playerCard);
       console.log(game.stack);
       game.setActivePlayer(game.getNextPlayer(game.activePlayer));
@@ -179,7 +179,6 @@ while (game.inProgress) {
 
     //evaluate
     const highestCard = game.evaluateStack(game.stack);
-
 
     console.log(highestCard);
 

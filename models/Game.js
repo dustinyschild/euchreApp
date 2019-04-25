@@ -55,25 +55,21 @@ const Game = function(deck, ...players) {
   this.mocks = {};
 }
 
-Game.prototype.playCard = function(card) {
-  this.stack.push(card);
+Game.prototype.playCard = function(card, player) {
+  this.stack.push({card, player});
 }
 
 Game.prototype.evaluateStack = function(stack) {
-  console.log("EVALUATING");
   //look for trump cards
-  const hasTrump = stack.filter(card => {
-    stackCard = this.deck.translateCard(card)
-    console.log(this.trumpSuit)
-    const matchesSuit = stackCard.suit === this.trumpSuit.suit;
-    const isLeftBower = stackCard.rank === "Jack" && stackCard.color === this.trumpSuit.color;
+  const hasTrump = stack.filter(cardPlayerPair => {
+    const card = this.deck.translateCard(cardPlayerPair.card)
+    const matchesSuit = card.suit === this.trumpSuit.suit;
+    const isLeftBower = card.rank === "Jack" && card.color === this.trumpSuit.color;
 
     return matchesSuit || isLeftBower;
   }).length > 0;
 
-  console.log("hasTrump", hasTrump);
-
-  //set eval rank order
+  //set rank order
   let evalMap = null;
   const { suit } = this.trumpSuit;
   if (hasTrump) {
@@ -88,7 +84,7 @@ Game.prototype.evaluateStack = function(stack) {
     else
       throw new Error("EvalMap must be set");
   } else {
-    const firstCardPlayed = this.deck.translateCard(stack[0]);
+    const firstCardPlayed = this.deck.translateCard(stack[0].card);
 
     if (firstCardPlayed.suit === "Spades")
       evalMap = evalLookup.leadIsSpades;
@@ -102,18 +98,17 @@ Game.prototype.evaluateStack = function(stack) {
       throw new Error("EvalMap must be set.");
   }
 
-  console.log("start reduce")
   //compare cross referenced index from eval map. Lowest index (highest rank) wins.
-  const indexOfHighCard = stack.reduce((acc, card) => {
+  const indexOfHighCard = stack.reduce((acc, cardPlayerPair) => {
+    const { card } = cardPlayerPair;
+
     const index = evalMap.indexOf(card);
-    console.log(card, index, acc);
     if (index < acc && index >= 0) {
       acc = index;
     }
     return acc;
   }, 32); //Default value for index
 
-  console.log(evalMap[indexOfHighCard]);
   return evalMap[indexOfHighCard];
 }
 
