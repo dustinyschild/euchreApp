@@ -4,6 +4,8 @@ const itParam = require("mocha-param");
 const Deck = require("../models/Deck");
 const Game = require("../models/Game");
 
+const data = require("./resources/data");
+
 describe("Game", function() {
   const deck = new Deck();
   const sut = new Game(deck);
@@ -16,70 +18,14 @@ describe("Game", function() {
   it("should register players");
 
   describe(".evaluateStack()", function() {
-    const SPADES = "Spades";
-    const CLUBS = "Clubs";
-    const HEARTS = "Hearts";
-    const DIAMONDS = "Diamonds";
-    const RED = "Red";
-    const BLACK = "Black";
+    const { evalCases } = data;
 
-    const testCases = [
-      {
-        description: "should evaluate Jack of Spades as highest card",
-        stack: ["JS", "AC", "QH", "10D"],
-        trumpSuit: { suit: SPADES, color: BLACK},
-        expected: "JS"
-      },
-      {
-        description: "should recognize left bower as trump",
-        stack: ["JC", "AH", "QD", "10H"],
-        trumpSuit: { suit: SPADES, color: BLACK},
-        expected: "JC"
-      },
-      {
-        description: "should recognize left bower as trump (not first card played)",
-        stack: ["AH", "JC", "QD", "10H"],
-        trumpSuit: { suit: SPADES, color: BLACK},
-        expected: "JC"
-      },
-      {
-        description: "should default winning suit as the suit that lead if no trump was played",
-        stack: ["JH", "AC", "QH", "10D"],
-        trumpSuit: { suit: SPADES, color: BLACK},
-        expected: "QH"
-      },
-      {
-        description: "should evaluate Jack of Clubs as highest card",
-        stack: ["JC", "AC", "QH", "10D"],
-        trumpSuit: { suit: CLUBS, color: BLACK},
-        expected: "JC"
-      },
-      {
-        description: "should recognize left bower as trump",
-        stack: ["JS", "AH", "QD", "10H"],
-        trumpSuit: { suit: CLUBS, color: BLACK},
-        expected: "JS"
-      },
-      {
-        description: "should recognize left bower as trump (not first card played)",
-        stack: ["AH", "JS", "QD", "10H"],
-        trumpSuit: { suit: CLUBS, color: BLACK},
-        expected: "JS"
-      },
-      {
-        description: "should default winning suit as the suit that lead if no trump was played",
-        stack: ["JH", "AS", "QH", "10D"],
-        trumpSuit: { suit: CLUBS, color: BLACK},
-        expected: "QH"
-      }
-    ];
+    itParam("${value.description}", evalCases, function(evalCase) {
+      sut.trumpSuit = evalCase.trumpSuit;
 
-    itParam("${value.description}", testCases, function(testCase) {
-      sut.trumpSuit = testCase.trumpSuit;
+      const highCard = sut.evaluateStack(evalCase.stack);
 
-      const highCard = sut.evaluateStack(testCase.stack);
-
-      assert.strictEqual(highCard, testCase.expected);
+      assert.strictEqual(highCard, evalCase.expected);
     });
   });
 });
