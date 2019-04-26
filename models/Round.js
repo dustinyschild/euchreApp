@@ -3,6 +3,8 @@ const Round = function() {
   this.trumpSuit = null;
 
   this.handsPlayed = [];
+
+  this.totalTricks = 0;
 }
 
 module.exports = Round;

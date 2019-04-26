@@ -45,6 +45,7 @@ while (game.inProgress) {
   const round = new Round();
   game.currentRound = round;
   while (round.inProgress) {
+    console.log("Shuffling...")
     deck.shuffle();
 
     //deal cards
@@ -58,8 +59,8 @@ while (game.inProgress) {
     //phase 1:
     //pass action between players to select trump suit
     //when trump suit is selected assign it to the dealer and allow discard.
-    const trumpCard = deck.translateCard(deck.drawCard());
-    const trumpSuit = { suit: trumpCard.suit, color: trumpCard.color };
+    let trumpCard = deck.translateCard(deck.drawCard());
+    let trumpSuit = { suit: trumpCard.suit, color: trumpCard.color };
 
     //mock player responses
     game.players[3].mocks.trumpChoice = "n";
@@ -84,11 +85,10 @@ while (game.inProgress) {
         //set trump suit
         console.log(`${game.activePlayer.name} chose to order up trump!`);
 
-        console.log(trumpSuit)
         game.trumpSuit = trumpSuit;
         game.dealer.hand.push(trumpCard);
-
         if (game.dealer.name === user.name) {
+        console.log(game.dealer.hand);
           const discardCard = prompt("Which card do you want to discard?");
           //Optimally there would be some validation checks here
             //Correct format
@@ -111,8 +111,6 @@ while (game.inProgress) {
         continue;
       }
     }
-
-    console.log(game.trumpSuit)
 
     game.players[3].mocks.trumpSelection = "Spades";
     game.players[1].mocks.trumpSelection = "Hearts";
@@ -180,17 +178,20 @@ while (game.inProgress) {
     //evaluate
     const winningPair = game.evaluateStack(game.stack);
     winningPair.player.tricks += 1;
-
-    game.players.map(player => player.hand = []);
-
-    game.players.map(player => console.log(player.name, player.tricks, player.hand));
-
-    
     round.totalTricks += 1;
-   prompt("Round End.");
+
+    round.inProgress = round.totalTricks < 5 ? true : false;
+    game.players.map(player => console.log(player.name, player.tricks));
+    prompt(`${winningPair.player.name} took the trick!`);
+
+    //reset game values
+    game.trumpSuit = null;
+    game.stack = [];
+    game.players.map(player => player.hand = []);
   }
 
+  prompt("Round End.");
 
-
-  prompt()
+  game.inProgress = false;
 }
+prompt("Game End.");
