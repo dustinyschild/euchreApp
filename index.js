@@ -181,12 +181,13 @@ while (game.inProgress) {
     const winningPair = game.evaluateStack(game.stack);
     winningPair.player.tricks += 1;
 
-
     game.players.map(player => player.hand = []);
 
     game.players.map(player => console.log(player.name, player.tricks, player.hand));
 
-    prompt("Round End.");
+    
+    round.totalTricks += 1;
+   prompt("Round End.");
   }
 
 
