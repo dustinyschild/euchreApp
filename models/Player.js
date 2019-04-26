@@ -2,6 +2,8 @@ const Player = function(name) {
   this.name = name;
   this.hand = [];
 
+  this.tricks = 0;
+
   //TEMPORARY
   this.mocks = {};
 }

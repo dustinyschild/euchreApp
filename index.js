@@ -178,9 +178,10 @@ while (game.inProgress) {
     }
 
     //evaluate
-    const highestCard = game.evaluateStack(game.stack);
+    const winningPair = game.evaluateStack(game.stack);
+    winningPair.player.tricks += 1;
 
-    console.log(highestCard);
+    game.players.map(player => console.log(player.name, player.tricks));
 
     prompt("Round End.");
   }

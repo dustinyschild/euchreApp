@@ -23,9 +23,9 @@ describe("Game", function() {
     itParam("${value.description}", evalCases, function(evalCase) {
       sut.trumpSuit = evalCase.trumpSuit;
 
-      const highCard = sut.evaluateStack(evalCase.stack);
+      const pair = sut.evaluateStack(evalCase.stack);
 
-      assert.strictEqual(highCard, evalCase.expected);
+      assert.strictEqual(pair.card, evalCase.expected);
     });
   });
 });

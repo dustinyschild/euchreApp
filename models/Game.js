@@ -99,17 +99,17 @@ Game.prototype.evaluateStack = function(stack) {
   }
 
   //compare cross referenced index from eval map. Lowest index (highest rank) wins.
-  const indexOfHighCard = stack.reduce((acc, cardPlayerPair) => {
+  return stack.reduce((acc, cardPlayerPair) => {
     const { card } = cardPlayerPair;
 
     const index = evalMap.indexOf(card);
-    if (index < acc && index >= 0) {
-      acc = index;
+    if (index < acc.index && index >= 0) {
+      acc = { card: card, player: cardPlayerPair.player, index: index };
     }
-    return acc;
-  }, 32); //Default value for index
 
-  return evalMap[indexOfHighCard];
+    console.log(acc.index);
+    return acc;
+  }, {index: 32});
 }
 
 module.exports = Game
