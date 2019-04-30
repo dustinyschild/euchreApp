@@ -62,7 +62,7 @@ Game.prototype.playCard = function(card, player) {
 Game.prototype.evaluateStack = function(stack) {
   //look for trump cards
   const hasTrump = stack.filter(cardPlayerPair => {
-    const card = this.deck.translateCard(cardPlayerPair.card)
+    const card = this.deck.translateCard(cardPlayerPair.card);
     const matchesSuit = card.suit === this.trumpSuit.suit;
     const isLeftBower = card.rank === "Jack" && card.color === this.trumpSuit.color;
 
@@ -107,9 +107,8 @@ Game.prototype.evaluateStack = function(stack) {
       acc = { card: card, player: cardPlayerPair.player, index: index };
     }
 
-    console.log(acc.index);
     return acc;
   }, {index: 32});
 }
 
-module.exports = Game
+module.exports = Game;

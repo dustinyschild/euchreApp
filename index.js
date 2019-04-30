@@ -44,108 +44,107 @@ while (game.inProgress) {
 
   const round = new Round();
   game.currentRound = round;
-  while (round.inProgress) {
-    console.log("Shuffling...")
-    deck.shuffle();
+  console.log("Shuffling...")
+  deck.shuffle();
 
-    //deal cards
-    for (var i = 0; i < 20; i++) {
-      game.players[i%4].hand.push(deck.drawCard());
+  //deal cards
+  for (var i = 0; i < 20; i++) {
+    game.players[i%4].hand.push(deck.drawCard());
+  }
+
+  game.players.map(player => console.log(`${player.name}'s hand: `, player.hand));
+  console.log("Cards left: ", deck.cards);
+  //phase 1:
+  //pass action between players to select trump suit
+  //when trump suit is selected assign it to the dealer and allow discard.
+  let trumpCard = deck.translateCard(deck.drawCard());
+  let trumpSuit = { suit: trumpCard.suit, color: trumpCard.color };
+
+  //mock player responses
+  game.players[3].mocks.trumpChoice = "n";
+  game.players[1].mocks.trumpChoice = "n";
+  game.players[2].mocks.trumpChoice = "n";
+
+  let playerChoice = null;
+  for (var i = 0; i < 4; i++) {
+    const nextPlayer = game.getNextPlayer(game.activePlayer);
+    game.setActivePlayer(nextPlayer);
+
+
+    if (game.activePlayer.name === user.name) {
+      playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit.suit} to be trump? y = yes / n = no\n`);
+    } else {
+      playerChoice = game.players[i].mocks.trumpChoice;
     }
 
-    game.players.map(player => console.log(`${player.name}'s hand: `, player.hand));
-    console.log("Cards left: ", deck.cards);
+    // Refactor to "validations" file, wrap in try catch
+    if (playerChoice === "y") {
+      //set trump suit
+      console.log(`${game.activePlayer.name} chose to order up trump!`);
 
-    //phase 1:
-    //pass action between players to select trump suit
-    //when trump suit is selected assign it to the dealer and allow discard.
-    let trumpCard = deck.translateCard(deck.drawCard());
-    let trumpSuit = { suit: trumpCard.suit, color: trumpCard.color };
+      game.trumpSuit = trumpSuit;
+      game.dealer.hand.push(trumpCard);
+      if (game.dealer.name === user.name) {
+      console.log(game.dealer.hand);
+        const discardCard = prompt("Which card do you want to discard?");
+        //Optimally there would be some validation checks here
+          //Correct format
+          //Player has card
+        console.log(game.dealer.hand);
+        game.dealer.hand.filter(playerCard => playerCard !== discardCard);
+      } else {
+        console.log("Dealer picks the card up and discards");
+        game.dealer.hand.shift();
+      }
 
-    //mock player responses
-    game.players[3].mocks.trumpChoice = "n";
-    game.players[1].mocks.trumpChoice = "n";
-    game.players[2].mocks.trumpChoice = "n";
+      break;
+    } else if (playerChoice === "n") {
+      //move on to next player
+      console.log(`${game.activePlayer.name} passes.`);
+    } else {
+      new Error("Not a valid input");
+      //reset iteration
+      i--;
+      continue;
+    }
+  }
 
-    let playerChoice = null;
+  game.players[3].mocks.trumpSelection = "Spades";
+  game.players[1].mocks.trumpSelection = "Hearts";
+  game.players[2].mocks.trumpSelection = "Diamonds";
 
+  if (!game.trumpSuit) {
     for (var i = 0; i < 4; i++) {
       const nextPlayer = game.getNextPlayer(game.activePlayer);
       game.setActivePlayer(nextPlayer);
+      console.log(`${game.activePlayer.name} may choose trump..............`);
 
+      if (i === 3) {
+        console.log("last loop");
 
-      if (game.activePlayer.name === user.name) {
-        playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit.suit} to be trump? y = yes / n = no\n`);
-      } else {
-        playerChoice = game.players[i].mocks.trumpChoice;
-      }
-
-      // Refactor to "validations" file, wrap in try catch
-      if (playerChoice === "y") {
-        //set trump suit
-        console.log(`${game.activePlayer.name} chose to order up trump!`);
-
-        game.trumpSuit = trumpSuit;
-        game.dealer.hand.push(trumpCard);
-        if (game.dealer.name === user.name) {
-        console.log(game.dealer.hand);
-          const discardCard = prompt("Which card do you want to discard?");
-          //Optimally there would be some validation checks here
-            //Correct format
-            //Player has card
-          console.log(game.dealer.hand);
-          game.dealer.hand.filter(playerCard => playerCard !== discardCard);
+        if (game.activePlayer.name === user.name) {
+          trumpSuit = prompt("You must select trump. What will it be?\n");
         } else {
-          console.log("Dealer picks the card up and discards");
-          game.dealer.hand.shift();
+          trumpSuit = "Spades";
+          console.log(`${game.players[i].name} chooses ${trumpSuit}`);
         }
-
-        break;
-      } else if (playerChoice === "n") {
-        //move on to next player
-        console.log(`${game.activePlayer.name} passes.`);
+      } else if (game.activePlayer.name === user.name) {
+        playerChoice = prompt("Order up trump?");
+        if (playerChoice === "y") {
+          trumpSuit = prompt("Which suit?");
+          break;
+        }
       } else {
-        new Error("Not a valid input");
-        //reset iteration
-        i--;
-        continue;
+        trumpSuit = game.players[i].mocks.trumpSelection;
       }
+
     }
 
-    game.players[3].mocks.trumpSelection = "Spades";
-    game.players[1].mocks.trumpSelection = "Hearts";
-    game.players[2].mocks.trumpSelection = "Diamonds";
+    game.trumpSuit = trumpSuit;
+    console.log(`${game.trumpSuit} is trump.`);
+  }
 
-    if (!game.trumpSuit) {
-      for (var i = 0; i < 4; i++) {
-        const nextPlayer = game.getNextPlayer(game.activePlayer);
-        game.setActivePlayer(nextPlayer);
-        console.log(`${game.activePlayer.name} may choose trump..............`);
-
-        if (i === 3) {
-          console.log("last loop");
-
-          if (game.activePlayer.name === user.name) {
-            trumpSuit = prompt("You must select trump. What will it be?\n");
-          } else {
-            trumpSuit = "Spades";
-            console.log(`${game.players[i].name} chooses ${trumpSuit}`);
-          }
-        } else if (game.activePlayer.name === user.name) {
-          playerChoice = prompt("Order up trump?");
-          if (playerChoice === "y") {
-            trumpSuit = prompt("Which suit?");
-            break;
-          }
-        } else {
-          trumpSuit = game.players[i].mocks.trumpSelection;
-        }
-
-      }
-
-      game.trumpSuit = trumpSuit;
-      console.log(`${game.trumpSuit} is trump.`);
-    }
+  while (round.inProgress) {
 
     //phase 2:
     //take turns playing cards, highest card wins. Winner of the hand goes first next round. (5x)
@@ -171,7 +170,6 @@ while (game.inProgress) {
 
       game.playCard(playerCard, game.activePlayer);
       game.activePlayer.playCard(playerCard);
-      console.log(game.stack);
       game.setActivePlayer(game.getNextPlayer(game.activePlayer));
     }
 
@@ -183,15 +181,31 @@ while (game.inProgress) {
     round.inProgress = round.totalTricks < 5 ? true : false;
     game.players.map(player => console.log(player.name, player.tricks));
     prompt(`${winningPair.player.name} took the trick!`);
-
-    //reset game values
-    game.trumpSuit = null;
-    game.stack = [];
-    game.players.map(player => player.hand = []);
   }
 
+  //reset game values
+  game.trumpSuit = null;
+  game.stack = [];
+  game.players.map(player => player.hand = []);
   prompt("Round End.");
 
-  game.inProgress = false;
+  //award points
+  const winningTeam = game.teams.reduce((acc, team) => {
+    if (acc && team.tricks > acc.tricks) {
+      acc = team;
+    }
+    return acc;
+  });
+
+  //pseudo
+  if (winningTeam === round.makers) {
+    winningTeam.points += 2;
+  } else if (winningTeam.tricks === 5) {
+    //check how many points for taking all tricks
+  } else {
+    winningTeam.points += 1;
+  }
+  const winner = game.teams.filter(team => team.points === 15)[0];
+  game.inProgress = !!winner;
 }
 prompt("Game End.");
