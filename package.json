@@ -12,6 +12,7 @@
   "dependencies": {
     "mocha": "^6.1.4",
     "mocha-param": "^2.0.0",
-    "syncprompt": "^2.0.0"
+    "syncprompt": "^2.0.0",
+    "uuid": "^3.3.2"
   }
 }

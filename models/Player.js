@@ -1,4 +1,8 @@
+const uuid = require("uuid/v4");
+
 const Player = function(name) {
+  this.id = uuid();
+  console.log(this.id);
   this.name = name;
   this.hand = [];
 

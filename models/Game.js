@@ -32,6 +32,7 @@ const Game = function(deck, ...players) {
     let playerDrawing = null;
     let i = 0;
 
+    deck.shuffle()
     do  {
       card = deck.drawCard();
       playerDrawing = this.players[i%4];
@@ -60,9 +61,11 @@ Game.prototype.playCard = function(card, player) {
 }
 
 Game.prototype.evaluateStack = function(stack) {
+  console.log(stack);
   //look for trump cards
   const hasTrump = stack.filter(cardPlayerPair => {
     const card = this.deck.translateCard(cardPlayerPair.card);
+    console.log(cardPlayerPair.card, card)
     const matchesSuit = card.suit === this.trumpSuit.suit;
     const isLeftBower = card.rank === "Jack" && card.color === this.trumpSuit.color;
 
@@ -109,6 +112,12 @@ Game.prototype.evaluateStack = function(stack) {
 
     return acc;
   }, {index: 32});
+}
+
+Game.prototype.hasWinner = function() {
+  const winner = this.teams.filter(team => team.points >= 15);
+
+  return winner.length > 0 ? winner : false;
 }
 
 module.exports = Game;

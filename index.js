@@ -37,8 +37,8 @@ console.log(`You will be playing against ${game.teams[1].players[0].name} and ${
 //game loop
 while (game.inProgress) {
   //assign dealer
-  console.log("Dealing cards to determine the first dealer...");
-  console.log(`${game.assignDealer()} will deal first.`);
+  console.log("Dealing cards to determine the dealer...");
+  console.log(`${game.assignDealer()} will deal.`);
   game.setActivePlayer(game.dealer);
   console.log("ACTIVE AND DEALER", game.activePlayer, game.dealer);
 
@@ -70,20 +70,26 @@ while (game.inProgress) {
     const nextPlayer = game.getNextPlayer(game.activePlayer);
     game.setActivePlayer(nextPlayer);
 
-
     if (game.activePlayer.name === user.name) {
       playerChoice = prompt(`${game.activePlayer.name} would you like ${trumpSuit.suit} to be trump? y = yes / n = no\n`);
     } else {
       playerChoice = game.players[i].mocks.trumpChoice;
     }
 
+    let playersTeam = game.teams.filter(team => team.players.filter(player => player.id === game.activePlayer.id).length > 0)[0];
+    let opposingTeam = game.teams.filter(team => team.players.filter(player => player.name === game.activePlayer.name).length === 0)[0];
+
     // Refactor to "validations" file, wrap in try catch
     if (playerChoice === "y") {
       //set trump suit
       console.log(`${game.activePlayer.name} chose to order up trump!`);
 
+      round.makers = playersTeam;
+      round.defenders = opposingTeam;
+
       game.trumpSuit = trumpSuit;
-      game.dealer.hand.push(trumpCard);
+      game.dealer.hand.push(trumpCard.id);
+
       if (game.dealer.name === user.name) {
       console.log(game.dealer.hand);
         const discardCard = prompt("Which card do you want to discard?");
@@ -156,16 +162,23 @@ while (game.inProgress) {
     console.log(`${game.activePlayer.name} leads first.`);
 
     let playerCard = null;
+    game.players[0].mocks.playerCard = game.players[0].hand[0]
     game.players[1].mocks.playerCard = game.players[1].hand[0]
     game.players[2].mocks.playerCard = game.players[2].hand[0]
     game.players[3].mocks.playerCard = game.players[3].hand[0]
 
     for (var i = 0; i < 4; i++) {
+      console.log(game.activePlayer.name)
       if (game.activePlayer.name === user.name) {
         playerCard = prompt(`Choose a card to play: \n${game.activePlayer.hand}`)
+        //Default to first cardin hand.
+        if (playerCard === "") playerCard = game.activePlayer.hand[0];
+        console.log("YOUR CARD", playerCard)
+
         //validation blah blah blah
       } else {
         playerCard = game.players[i].mocks.playerCard
+        console.log("THEIR CARD", playerCard, deck.translateCard(playerCard))
       }
 
       game.playCard(playerCard, game.activePlayer);
@@ -181,11 +194,15 @@ while (game.inProgress) {
     round.inProgress = round.totalTricks < 5 ? true : false;
     game.players.map(player => console.log(player.name, player.tricks));
     prompt(`${winningPair.player.name} took the trick!`);
+
+    game.stack = [];
   }
+
+  //add trick count to teams
+  game.players.map((player, i) => game.teams[i % 2].tricks += player.tricks);
 
   //reset game values
   game.trumpSuit = null;
-  game.stack = [];
   game.players.map(player => player.hand = []);
   prompt("Round End.");
 
@@ -197,15 +214,21 @@ while (game.inProgress) {
     return acc;
   });
 
+  console.log("Winner's ID", winningTeam.id)
+  console.log(round.makers.id, winningTeam.id === round.makers.id);
+  console.log(round.defenders.id, winningTeam.id === round.defenders.id);
+
   //pseudo
-  if (winningTeam === round.makers) {
-    winningTeam.points += 2;
+  if (winningTeam.id === round.makers.id) {
+    winningTeam.points += 1;
   } else if (winningTeam.tricks === 5) {
     //check how many points for taking all tricks
-  } else {
-    winningTeam.points += 1;
+  } else if(winningTeam === round.defenders) {
+    winningTeam.points += 2;
   }
-  const winner = game.teams.filter(team => team.points === 15)[0];
-  game.inProgress = !!winner;
+
+  game.teams.map(team => console.log(team.points));
+
+  game.inProgress = !game.hasWinner();
 }
 prompt("Game End.");
