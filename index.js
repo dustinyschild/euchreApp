@@ -218,16 +218,28 @@ while (game.inProgress) {
   console.log(round.makers.id, winningTeam.id === round.makers.id);
   console.log(round.defenders.id, winningTeam.id === round.defenders.id);
 
-  //pseudo
-  if (winningTeam.id === round.makers.id) {
-    winningTeam.points += 1;
-  } else if (winningTeam.tricks === 5) {
-    //check how many points for taking all tricks
-  } else if(winningTeam === round.defenders) {
+  //TODO: add feature - going alone
+  if (winningTeam.alone) {
+    if (winningTeam.tricks === 5) {
+      winningTeam.points += 4;
+    } else {
+      winningTeam.points += 1;
+    }
+  } else if (winningTeam.id === round.makers.id) {
+    if (winningTeam.tricks === 5) {
+      winningTeam.points += 2;
+    } else {
+      winningTeam.points += 1;
+    }
+  } else if(winningTeam.id === round.defenders.id) {
     winningTeam.points += 2;
   }
 
-  game.teams.map(team => console.log(team.points));
+  console.log(`${game.teams[0].players[0].name} and ${game.teams[0].players[1].name} points: ${game.teams[0].points}`)
+  console.log(`${game.teams[1].players[0].name} and ${game.teams[1].players[1].name} points: ${game.teams[1].points}`)
+
+  game.players.map(player => player.tricks = 0);
+  game.teams.map(team => team.tricks = 0)
 
   game.inProgress = !game.hasWinner();
 }
