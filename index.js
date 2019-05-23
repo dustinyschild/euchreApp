@@ -146,6 +146,9 @@ while (game.inProgress) {
 
     }
 
+    round.makers = game.teams.filter(team => team.players.filter(player => player.id === game.activePlayer.id).length > 0)[0];
+    round.defenders = game.teams.filter(team => team.players.filter(player => player.name === game.activePlayer.name).length === 0)[0];
+
     game.trumpSuit = trumpSuit;
     console.log(`${game.trumpSuit} is trump.`);
   }

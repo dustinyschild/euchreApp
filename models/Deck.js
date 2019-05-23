@@ -18,7 +18,6 @@ const Deck = function() {
   // Source: https://bost.ocks.org/mike/shuffle/
   //Shuffle resets the deck unless deck arg is specified
   this.shuffle = (deck = defaultDeck) => {
-    console.log(deck)
     //ADDED: clone deck to preserve the original
     deckCopy = deck.slice(0);
     var newDeck = [], n = deckCopy.length, i;
